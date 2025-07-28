@@ -65,7 +65,7 @@ protected:
     rclcpp::Node *,
     const std::string & base_topic,
     const Callback & callback,
-    rclcpp::QoS custom_qos,
+    rmw_qos_profile_t custom_qos,
     rclcpp::SubscriptionOptions options) override;
 
   void internalCallback(

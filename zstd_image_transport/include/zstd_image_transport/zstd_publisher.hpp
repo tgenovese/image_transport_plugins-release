@@ -36,7 +36,6 @@
 
 #include <string>
 #include <vector>
-#include <unordered_set>
 
 #include <sensor_msgs/msg/image.hpp>
 #include <sensor_msgs/msg/compressed_image.hpp>
@@ -65,8 +64,8 @@ protected:
   void advertiseImpl(
     rclcpp::Node * node,
     const std::string & base_topic,
-    rclcpp::QoS custom_qos,
-    rclcpp::PublisherOptions options) override final;
+    rmw_qos_profile_t custom_qos,
+    rclcpp::PublisherOptions options) override;
 
   void publish(
     const sensor_msgs::msg::Image & message,
@@ -77,16 +76,10 @@ protected:
 
 private:
   std::vector<std::string> parameters_;
-  std::unordered_set<std::string> deprecated_parameters_;
-
-  rclcpp::node_interfaces::PreSetParametersCallbackHandle::SharedPtr
-    pre_set_parameter_callback_handle_;
 
   void declareParameter(
     const std::string & base_name,
     const ParameterDefinition & definition);
-
-  void preSetParametersCallback(std::vector<rclcpp::Parameter> & parameters);
 };
 
 }  // namespace zstd_image_transport

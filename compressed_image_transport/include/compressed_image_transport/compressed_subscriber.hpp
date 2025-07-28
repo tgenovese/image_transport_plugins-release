@@ -67,7 +67,7 @@ protected:
     rclcpp::Node *,
     const std::string & base_topic,
     const Callback & callback,
-    rclcpp::QoS custom_qos,
+    rmw_qos_profile_t custom_qos,
     rclcpp::SubscriptionOptions options) override;
 
   void internalCallback(
@@ -79,12 +79,19 @@ protected:
 
 private:
   std::vector<std::string> parameters_;
+  std::vector<std::string> deprecatedParameters_;
+
+  rclcpp::Subscription<ParameterEvent>::SharedPtr parameter_subscription_;
 
   int imdecodeFlagFromConfig();
 
   void declareParameter(
     const std::string & base_name,
     const ParameterDefinition & definition);
+
+  void onParameterEvent(
+    ParameterEvent::SharedPtr event, std::string full_name,
+    std::string base_name);
 };
 }  // namespace compressed_image_transport
 
